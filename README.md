@@ -38,22 +38,24 @@ We generate a t-SNE embedding of ChessFormer's last hidden layer latent represen
 This repository contains months of research aimed toward demonstrating the phenomenon we have coined "Transcendence". The training code, the PyTorch modeling framework used, and the evaluation against Stockfish all sit inside of the inner chess_research directory. We implore the community to try the training and evaluation out for themselves. See if these results are reproducible and if there are other interesting phenomena to be observed.
 
 
-- The scripts directory provides a template for running the training or evaluations desired.
+- The [`scripts`](https://github.com/ezhang7423/chess-research/tree/main/scripts) directory provides a template for running the training or evaluations desired.
+
+- For figures that we generated, explore the [`figures`](). For code used to generate transcendence line plots above, look at the [`Fig-gen`](https://github.com/ezhang7423/fig-gen-transcendence/tree/vincent-transcendence-work/figgen) repository that we wrote.
 
 
-- There are a few different config.json files that are ready for immediate use.
+- There are a few different config.json files in the [`config`](https://github.com/ezhang7423/chess-research/tree/main/config) directory that are ready for immediate use. There is a 50M, 302M, and 707M parameter model with appropriate batch sizes for 4 H100 gpus.
 
 
-- The nanogpt_module.py processes the game strings that are passed into the GPT model we used.
+- [`Player.py`](https://github.com/ezhang7423/chess-research/blob/main/chess_research/eval/player.py) contains the Stockfish and NanoGPT (our model) player classes that process the game strings that are passed in and outputs a move based on what the model thinks.
 
 
-- The [`dataset-viz`](https://github.com/ezhang7423/chess_research/tree/dataset-viz) branch provides code for analyzing the dataset used and for generating the figures discussed below.
+- The [`/analysis/dataset`](https://github.com/ezhang7423/chess-research/tree/main/analysis/dataset) directory provides code for analyzing the dataset used and for generating some of the figures discussed above.
 
 
-- The [`advantage-analysis`](https://github.com/ezhang7423/chess_research/tree/advantaage-analysis) branch dives into how the stockfish engine is used to calculate the reward of each move made in a game. This is actually how the analysis is generated for a game on Lichess.org. Look into this [post](https://www.landonlehman.com/post/2021-01-25-how-to-reproduce-a-lichess-advantage-chart-in-python/) for a better intuition of what was being evaluated here.
+- The [`/analysis/advantage`](https://github.com/ezhang7423/chess-research/tree/main/analysis/advantage) branch dives into how the stockfish engine is used to calculate the reward of each move made in a game. This is actually how the analysis is generated for a game on Lichess.org. Look into this [post](https://www.landonlehman.com/post/2021-01-25-how-to-reproduce-a-lichess-advantage-chart-in-python/) for a better intuition of what was being evaluated here.
 
 
-- There is also the integration of the [`Glicko2`](https://github.com/fsmosca/glicko2calculator) repository, the method of calculating the elo ratings of players over a series of games. It is simple to use and adjust to your preference.
+- There is also the integration of the [`glicko2`](https://github.com/fsmosca/glicko2calculator) repository, the method of calculating the elo ratings of players over a series of games. It is simple to use and adjust to your preference.
 
 
 - Other branches contain work for other experimental settings. We are looking into these settings as future work, but feel free to play with the available code now. The What's Next section of this READ.ME.md gives some more in-depth explanations of what was trying to be achieved in these settings.
@@ -120,7 +122,7 @@ python chess_research --resume_from $PWD/runs/50M-High-Elo-1000-No-Elo-Condition
 Here is an explanation of some useful arguments to look at that we used to run our experiments and their purpose:
 
 
-- temperature_sampling: if true, will run evaluations with temperatures [0.001, 0.01, 0.1, 0.3, 0.5, 0.75, 1.0], used to denoise the models
+- temperature_sampling: if true, will run evaluations with temperatures [0.001, 0.01, 0.1, 0.3, 0.5, 0.75, 1.0, 1.5], used to denoise the models
 - eval_only: if true, will not run the training, only an evaluation of the model passed in against Stockfish (levels 1, 3, 5)
 - high_elo: sets the maximum elo ratings of the games that the model will see during train time
 - wandb_log: if true, will send the data of the training to a Wandb project that you set up and authenticate, to view your results.
@@ -148,52 +150,45 @@ Tips:
 
 ### Directory Structure
 
-
 ```
 CHESS_RESEARCH
 ├── .devcontainer
 ├── .empty
 ├── .github
-├── .venv
 ├── .vscode
 ├── adam-chess-data
 ├── chess_research
 │   ├── __pycache__
 │   ├── data
 │   │   ├── __pycache__
-│   │   └── zstd_process.py
+│   │   └── zstd_process.py # takes the training dataset and processes it
 │   ├── eval
 │   │   ├── __pycache__
-│   │   ├── wandb
-│   │   ├── data_structures.py
-│   │   ├── evaluation.py
-│   │   ├── glicko2.py
-│   │   ├── player.py
-│   │   ├── utils.py
-│   │   └── __init__.py
+│   │   ├── data_structures.py # Holds different objects used in utils
+│   │   ├── evaluation.py # Loads the model for eval and configures params (temp, elo, skill_lvl, etc.)
+│   │   ├── glicko2.py # Modeule for calculating rating given num wins, losses, draws
+│   │   ├── player.py # Contians the NanoGPT and Stockfish player classes
+│   │   ├── utils.py # Holds all the play game code for evaluating 2 player models.
+│   ├── __init__.py # Builds config object from args and runs training or large eval
 │   ├── .env.example
-│   ├── globals.py
-│   ├── model.py
-│   ├── train.py
+│   ├── globals.py # Contains global varaibles
+│   ├── model.py # Definition of GPT langauge model
+│   ├── train.py # Training code and saves checkpoints to runs
 ├── config
-│   ├── 50M_1000.json
-│   ├── 302M_1000.json
-│   ├── 707M_1000.json
-├── length_gen_evals
-├── lichess_hf_dataset
+│   ├── 50M_1000.json # 50M model, defaults to high_elo 1000
+│   ├── 302M_1000.json # 302M model, defaults to high_elo 1000
+│   ├── 707M_1000.json # 707M model, defaults to high_elo 1000
+├── figures # Holds the figures generated for this project
 ├── scripts
-|   ├── train_big.py
-├── tactics
-├── .env
+|   ├── train_big.py # Template code for running trainings
 ├── .gitignore
 ├── .pre-commit-config.yaml
 ├── LICENSE
-├── Makefile
+├── Makefile # Make install script
 ├── poetry.lock
 ├── pyproject.toml
 ├── README.md
 ├── requirements.txt
-└── runs
 ```
 
 
