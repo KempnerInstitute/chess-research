@@ -225,7 +225,7 @@ class GlickoCalc:
         else:  # draw
             p[0], p[1] = env.rate_1vs1(r1, r2, drawn=True)
 
-        self.rating_update(p[0])
+        self.rating_update(p[1])
         return self.current_elo, self.current_deviation
 
     @property

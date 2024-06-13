@@ -118,7 +118,7 @@ class Config:
     resume_from: str = ""
     resume_iter_num: int = None
     dataset: str = "/change/to/your/dataset"
-    gradient_accumulation_steps: int = 4
+    gradient_accumulation_steps: int = 1
     batch_size: int = 32  # 60 = 70% mem, 70 = 82% mem
     block_size: int = 1023
     # model

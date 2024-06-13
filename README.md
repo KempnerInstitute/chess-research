@@ -55,7 +55,8 @@ We require [`Conda`](https://docs.conda.io/en/latest/miniconda.html) for this re
 ```bash
 $ make install
 $ source .vevn/bin/activate
-```
+$ # make sure you've installed git-lfs
+$ git lfs clone https://huggingface.co/datasets/ezipe/lichess_elo_binned_debug```
 
 This will set up a new conda environment with [`Poetry`](https://python-poetry.org/) as the dependencies manager.
 

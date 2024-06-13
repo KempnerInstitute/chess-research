@@ -4,22 +4,30 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-    // {
-    //   "name": "zstd_process",
-    //   "type": "debugpy",
-    //   "request": "launch",
-    //   "program": "data/zstd_process.py",
-    //   "console": "integratedTerminal",
-    //   "justMyCode": false
-    // },
     {
-      "name": "Python Debugger: Current File with Arguments",
+      "name": "Python Debugger: Current File",
       "type": "debugpy",
       "request": "launch",
-      "program": "${workspaceFolder/chess_research/__init__.py",
+      "program": "${file}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Training",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/chess_research/__init__.py",
       "console": "integratedTerminal",
-      "args": "--resume_from $PWD/High_Elo_1000 --eval_only true --eval_job_total 2 --resume_iter_num 200000 --eval_job_id 0 --eval_n_games 2",
+      "args": "--dataset /home/ezipe/git/chess-research/lichess_elo_binned_debug --save_interval 2 --n_layer 2",
       "justMyCode": false
     },
-  ],
+    {
+      "name": "Evaluation Only",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/chess_research/__init__.py",
+      "console": "integratedTerminal",
+      "args": "--resume_from $PWD/High_Elo_1000 --eval_only true --eval_job_total 2 --resume_iter_num 200000 --eval_job_id 0 --eval_n_games 2 --n_layer 2",
+      "justMyCode": false
+    }
+  ]
 }
