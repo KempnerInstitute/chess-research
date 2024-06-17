@@ -36,9 +36,9 @@ This repository contains months of research aimed toward demonstrating the pheno
 
 - For figures that we generated, explore the [`analysis`](./analysis/). For code used to generate transcendence line plots above, look at the [`fig-gen`](https://github.com/ezhang7423/fig-gen-transcendence/tree/vincent-transcendence-work/figgen) repository that we wrote.
 
-- The [`./analysis/advantage`](./analysis/advantage) branch dives into how the stockfish engine is used to calculate the reward of each move made in a game. This is actually how the analysis is generated for a game on Lichess.org. Look into this [post](https://www.landonlehman.com/post/2021-01-25-how-to-reproduce-a-lichess-advantage-chart-in-python/) for a better intuition of what was being evaluated here.
+- The [`./analysis/advantage`](./analysis/advantage) directory dives into how the stockfish engine is used to calculate the reward of each move made in a game. This is actually how the analysis is generated for a game on Lichess.org. Look into this [post](https://www.landonlehman.com/post/2021-01-25-how-to-reproduce-a-lichess-advantage-chart-in-python/) for a better intuition of what was being evaluated here.
 
-- There are a few different config.json files in the [`config`](./config) directory that are ready for immediate use. There is a 50M, 302M, and 707M parameter model with appropriate batch sizes for a H100 80GB gpu.
+- There are a few different config.json files in the [`config`](./config) directory that are ready for immediate use. There is a 50M, 302M, and 707M parameter model with appropriate batch sizes for an H100 80GB GPU.
 
 - [`./eval/player.py`](https://github.com/ezhang7423/chess-research/blob/main/chess_research/eval/player.py) contains the Stockfish and NanoGPT player classes that process the game strings that are passed in and outputs a move based on what the model predicts.
 
@@ -46,7 +46,7 @@ This repository contains months of research aimed toward demonstrating the pheno
 
 ## 🧪 Experiment Logs
 
-To compare agains, the experiments for the Max_Elo 1000 are logged [here](https://wandb.ai/project-eval/50M-Training/reports/Transcendence-Chess-Research---Vmlldzo4MzAxODA2?accessToken=9r9uih3djihscx3w67h47dfeh9rynd69toc001mr0a9qzqa2cxvie9izlu8yomp1). The evaluations done in these runs are not statistically significant, and are only done to get an idea of how the model is performing. We evaluate for a 100 games against Stockfish levels 1, 3, and 5 each for the final results in the paper.
+To compare against, the experiments for the Max_Elo 1000 are logged [here](https://wandb.ai/project-eval/50M-Training/reports/Transcendence-Chess-Research---Vmlldzo4MzAxODA2?accessToken=9r9uih3djihscx3w67h47dfeh9rynd69toc001mr0a9qzqa2cxvie9izlu8yomp1). The evaluations done in these runs are not statistically significant, and are only done to get an idea of how the model is performing. We evaluate for a 100 games against Stockfish levels 1, 3, and 5 each for the final results in the paper.
 
 ## Installation
 
@@ -56,7 +56,8 @@ We require [`Conda`](https://docs.conda.io/en/latest/miniconda.html) for this re
 $ make install
 $ source .vevn/bin/activate
 $ # make sure you've installed git-lfs
-$ git lfs clone https://huggingface.co/datasets/ezipe/lichess_elo_binned_debug```
+$ git lfs clone https://huggingface.co/datasets/ezipe/lichess_elo_binned_debug
+```
 
 This will set up a new conda environment with [`Poetry`](https://python-poetry.org/) as the dependencies manager.
 
